@@ -190,7 +190,7 @@ export default function Header() {
           <ul className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8 lg:ml-auto text-center text-[20px] font-bold">
             <li>
               <NavLink
-                to="/home"
+                to="/"
                 onClick={handleNavLinkClick}
                 className={({ isActive }) =>
                   isActive
