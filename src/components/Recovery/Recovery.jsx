@@ -186,33 +186,37 @@ const Recovery = () => {
         </div>
 
         {showHistory && (
-          <div className="bg-white shadow-lg rounded-lg p-4 md:p-8 max-w-4xl mx-auto">
-            <h3 className="text-xl font-bold mb-4">Recovery History</h3>
-            <table className="min-w-full table-auto">
-              <thead>
-                <tr>
-                  <th className="py-2 px-6 border-b">#</th>
-                  <th className="py-2 px-6 border-b">Customer Name</th>
-                  <th className="py-2 px-6 border-b">Loan Amount</th>
-                  <th className="py-2 px-6 border-b">Amount Recovered</th>
-                  <th className="py-2 px-6 border-b">Recovery Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recoveryHistory.map((recovery, index) => (
-                  <tr key={recovery._id}>
-                    <td className="py-2 px-6 border-b">{index + 1}</td>
-                    <td className="py-2 px-6 border-b">{recovery.customerId.name}</td>
-                    <td className="py-2 px-6 border-b">₨ {recovery.customerId.loan}</td>
-                    <td className="py-2 px-6 border-b">₨ {recovery.amountRecovered}</td>
-                    <td className="py-2 px-6 border-b">{new Date(recovery.recoveryDate).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+  <div className="bg-white shadow-lg rounded-lg p-4 md:p-8 max-w-4xl mx-auto">
+    <h3 className="text-lg md:text-xl font-bold mb-4">Recovery History</h3>
+    <div className="overflow-x-auto">
+      <table className="min-w-full table-auto">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="py-2 px-4 md:px-6 border-b text-sm md:text-base text-left">#</th>
+            <th className="py-2 px-4 md:px-6 border-b text-sm md:text-base text-left">Customer Name</th>
+            <th className="py-2 px-4 md:px-6 border-b text-sm md:text-base text-left">Loan Amount</th>
+            <th className="py-2 px-4 md:px-6 border-b text-sm md:text-base text-left">Amount Recovered</th>
+            <th className="py-2 px-4 md:px-6 border-b text-sm md:text-base text-left">Recovery Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recoveryHistory.map((recovery, index) => (
+            <tr key={recovery._id} className="hover:bg-gray-50">
+              <td className="py-2 px-4 md:px-6 border-b text-sm md:text-base">{index + 1}</td>
+              <td className="py-2 px-4 md:px-6 border-b text-sm md:text-base">{recovery.customerId.name}</td>
+              <td className="py-2 px-4 md:px-6 border-b text-sm md:text-base">₨ {recovery.customerId.loan}</td>
+              <td className="py-2 px-4 md:px-6 border-b text-sm md:text-base">₨ {recovery.amountRecovered}</td>
+              <td className="py-2 px-4 md:px-6 border-b text-sm md:text-base">
+                {new Date(recovery.recoveryDate).toLocaleDateString()}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
 
-          </div>
-        )}
       </section>
     </div>
   );

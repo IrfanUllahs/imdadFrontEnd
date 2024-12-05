@@ -7,7 +7,7 @@ const Customer = () => {
   const [transactions, setTransactions] = useState({});
   console.log(transactions);
   const [form, setForm] = useState({
-    id: null,
+    _id: null,
     name: "",
     email: "",
     phone: "",
@@ -68,8 +68,8 @@ const Customer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (form.id) {
-        await axios.put(`/api/customers/${form.id}`, form);
+      if (form._id) {
+        await axios.put(`/api/customers/update/${form._id}`, form);
       } else {
         await axios.post(`/api/customers`, form);
       }
@@ -114,7 +114,7 @@ const Customer = () => {
           className="bg-gray-50 p-6 rounded-lg shadow-md mb-8"
         >
           <h3 className="text-[18px] font-bold mb-4">
-            {form.id ? "Edit Customer" : "Add New Customer"}
+            {form._id ? "Edit Customer" : "Add New Customer"}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
             <div>
@@ -190,7 +190,7 @@ const Customer = () => {
             type="submit"
             className="bg-orange-500 hover:bg-orange-600 text-white  lg:p-3 p-1 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
-            {form.id ? "Update Customer" : "Add Customer"}
+            {form._id ? "Update Customer" : "Add Customer"}
           </button>
         </form>
 
