@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../utils/axios.js";
+import { useNavigate } from "react-router-dom";
 
 const Customer = () => {
   const [customers, setCustomers] = useState([]);
@@ -13,6 +14,11 @@ const Customer = () => {
     phone: "",
     address: "",
   });
+  const navigate = useNavigate();
+
+  const handleViewKhata = (customerId) => {
+    navigate(`/khata/${customerId}`);
+  };
   const [expandedCustomerId, setExpandedCustomerId] = useState(null); // New state for toggling details
   const [searchTerm, setSearchTerm] = useState("");
   const [user, setUser] = useState(null);
@@ -265,8 +271,14 @@ const Customer = () => {
                     <strong className="font-bold text-gray-700">
                       Loan:
                     </strong>{" "}
-                    {customer.loan}
+                    {customer.loan.toLocaleString()}
                   </p>
+                  <button
+                        onClick={() => handleViewKhata(customer._id)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-2 rounded-lg shadow-lg mr-2"
+                      >
+                        view Khata
+                      </button>
                 </div>
               )}
             </li>
