@@ -154,18 +154,11 @@ const AddTransaction = () => {
               // onChange={(e) => setConversionRate(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
-            <input
-              id="conversionRate"
-              type="text"
-              placeholder="Enter weight..."
-              // value={conversionRate}
-              // onChange={(e) => setConversionRate(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+          
             <input
               id="conversionRate"
               type="number"
-              placeholder="Enter quantity..."
+              placeholder="Enter weight..."
               value={totalQuantity}
               onChange={(e) => setTotalQuantity((e.target.value))}
               // onChange={(e) => setConversionRate(e.target.value)}
@@ -251,7 +244,9 @@ const AddTransaction = () => {
                   <tr>
                     <th className="py-2 px-4 border-b">Customer</th>
                     <th className="py-2 px-4 border-b">Product</th>
-                    <th className="py-2 px-4 border-b">Quantity</th>
+                    <th className="py-2 px-4 border-b">Company</th>
+                    <th className="py-2 px-4 border-b">Size</th>
+                    <th className="py-2 px-4 border-b">Weight</th>
                     <th className="py-2 px-4 border-b">Price</th>
                     <th className="py-2 px-4 border-b">Payment</th>
                     <th className="py-2 px-4 border-b">Loan</th>
@@ -263,6 +258,8 @@ const AddTransaction = () => {
                     <tr key={transaction._id}>
                       <td className="py-2 px-4 border-b">{transaction.customer?.name || "N/A"}</td>
                       <td className="py-2 px-4 border-b">{transaction.product?.name || "N/A"}</td>
+                      <td className="py-2 px-4 border-b">{transaction.product?.companyName || "N/A"}</td>
+                      <td className="py-2 px-4 border-b">{transaction.product?.size || "N/A"}</td>
                       <td className="py-2 px-4 border-b">{transaction.quantity}</td>
                       <td className="py-2 px-4 border-b">{transaction.totalPrice}</td>
                       <td className="py-2 px-4 border-b">{transaction.payment}</td>

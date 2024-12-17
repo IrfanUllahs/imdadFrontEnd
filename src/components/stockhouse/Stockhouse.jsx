@@ -4,13 +4,13 @@ import axios from "../../utils/axios";
 
 const StockHouse = () => {
   const [products, setProducts] = useState([]);
+  const [companyName, setCompanyName] = useState("");
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [quantity, setQuantity] = useState();
   const [size, setSize] = useState();
   const [weight, setWeight] = useState();
   const [newProduct, setNewProduct] = useState({
     name: "",
-    salePrice: "",
     purchasePrice: "",
   });
   const [totalProfit, setTotalProfit] = useState(0);
@@ -51,40 +51,37 @@ const StockHouse = () => {
     setNewProduct({ ...newProduct, [name]: value });
   };
 
-  // Handle adding a new product
   const handleAddProduct = async () => {
     const productToAdd = {
       name: newProduct.name,
-      salePrice: parseFloat(newProduct.salePrice),
-      purchasePrice: parseFloat(newProduct.purchasePrice),
-      size: size,
+      companyName: companyName, // Use the state value
+      size: size,              // Use the state value
       weight: weight,
+      purchasePrice: parseFloat(newProduct.purchasePrice),
+      salePrice: parseFloat(newProduct.salePrice),
       quantity: quantity,
     };
-
+  
     try {
-      const response = await axios.post(
-        `/api/stocks`,
-        productToAdd
-      );
+      const response = await axios.post(`/api/stocks`, productToAdd);
       const addedProduct = response.data;
-
-      // Add the new product to the state and recalculate profit
+  
+      // Update state with the new product
       setProducts([...products, addedProduct]);
       setNewProduct({
         name: "",
-        salePrice: "",
         purchasePrice: "",
-        size: "",
-        weight: "",
-        quantity: "",
       });
+      setCompanyName("");
+      setSize("");
+      setWeight("");
+      setQuantity("");
       calculateTotalProfit([...products, addedProduct]);
     } catch (error) {
       console.error("Error adding product:", error);
     }
   };
-
+  
   // Filter products based on the search query
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -111,18 +108,18 @@ const StockHouse = () => {
           />
           <input
             className="border rounded p-2 w-full"
-            type="number"
-            name="purchasePrice"
-            placeholder="Purchase Price"
-            value={newProduct.purchasePrice}
-            onChange={handleInputChange}
+            type="text"
+            name="name"
+            placeholder="Company Name"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
           />
           <input
             className="border rounded p-2 w-full"
             type="number"
-            name="salePrice"
-            placeholder="Sale Price"
-            value={newProduct.salePrice}
+            name="purchasePrice"
+            placeholder="Purchase Price"
+            value={newProduct.purchasePrice}
             onChange={handleInputChange}
           />
           <div className="flex flex-col mt-1">
@@ -135,18 +132,11 @@ const StockHouse = () => {
                 onChange={(e) => setSize(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
-              <input
-                id="conversionRate"
-                type="text"
-                placeholder="Enter weight..."
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
+             
               <input
                 id="conversionRate"
                 type="number"
-                placeholder="Enter quantity..."
+                placeholder="Enter weight..."
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -178,6 +168,7 @@ const StockHouse = () => {
           <thead className="bg-blue-400 text-white">
             <tr>
               <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Name</th>
+              <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Company</th>
               {
                 user?.role === "admin" &&
                 <>
@@ -185,34 +176,23 @@ const StockHouse = () => {
                 </>
               }
 
-              <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Sale Price</th>
               <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Size</th>
-              <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Quantity</th>
               <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Weight</th>
-              {user?.role === "admin" &&
-
-                <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Profit per Item</th>
-              }
             </tr>
           </thead>
           <tbody>
             {filteredProducts.map((product) => (
               <tr key={product._id} className="border-t">
                 <td className="lg:p-3 p-1 text-[14px]">{product.name}</td>
+                <td className="lg:p-3 p-1 text-[14px]">{product.companyName}</td>
                 {user?.role === "admin" &&
                   <>
                     <td className="lg:p-3 p-1 text-[14px]">{product.purchasePrice}</td>
 
                   </>
                 }
-                <td className="lg:p-3 p-1 text-[14px]">{product.salePrice}</td>
                 <td className="lg:p-3 p-1 text-[14px]">{product.size}</td>
-                <td className="lg:p-3 p-1 text-[14px]">{product.quantity}</td>
-                <td className="lg:p-3 p-1 text-[14px]">{product.weight}</td>
-                {user?.role === "admin" &&
-
-                  <td className="lg:p-3 p-1 text-[14px]">{product.profitPerItem}</td>
-                }
+                <td className="lg:p-3 p-1 text-[14px]">{product.quantity}kg</td>
               </tr>
             ))}
           </tbody>

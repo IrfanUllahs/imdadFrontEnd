@@ -20,7 +20,7 @@ import AddTransaction from "./components/stockhouse/ProductSell.jsx";
 import CommissionTracker from "./components/DubaiPortExpenses/commission.jsx";
 import UpdateAgentPymt from "./components/AgentPayment/UpdateAgentPymt.jsx";
 import ProtectedRoute from "./components/protectedRoute/protectedRoute.jsx";
-
+import CustomerKhata from "./components/customer/CustomerKhata.jsx";
 function App() {
   return (
     <Router>
@@ -49,6 +49,7 @@ function App() {
           <Route path="/dailyExpenses" element={<DailyExpense />} />
           <Route path="/productSell" element={<AddTransaction />} />
           <Route path="/commission" element={<CommissionTracker />} />
+          <Route path="/khata/:customerId" element={<CustomerKhata />} />
           <Route
             path="/updateagentpayment/:id"
             element={<UpdateAgentPymt />}
