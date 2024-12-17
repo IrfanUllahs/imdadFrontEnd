@@ -173,6 +173,7 @@ const StockHouse = () => {
                 user?.role === "admin" &&
                 <>
                   <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Purchase Price</th>
+                  <th className="lg:p-3 p-1 sm:text-[14px] text-[10px]">Total Price</th>
                 </>
               }
 
@@ -188,6 +189,7 @@ const StockHouse = () => {
                 {user?.role === "admin" &&
                   <>
                     <td className="lg:p-3 p-1 text-[14px]">{product.purchasePrice}</td>
+                    <td className="lg:p-3 p-1 text-[14px]">{(product.purchasePrice)*(product.quantity)}</td>
 
                   </>
                 }
