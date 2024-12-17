@@ -66,7 +66,20 @@ const AddTransaction = () => {
   const handleSave = async () => {
     try {
       let customerId = selectedCustomer;
-      await axios.post(`/api/transactions`, {
+  
+      // Prepare the new transaction data
+      const newTransaction = {
+        customer: customers.find((c) => c._id === customerId), // Attach customer details
+        product: products.find((p) => p._id === selectedProduct), // Attach product details
+        quantity: totalQuantity,
+        payment,
+        loan,
+        totalPrice,
+        date: new Date(), // Add current date
+      };
+  
+      // Save the transaction to the server
+      const response = await axios.post(`/api/transactions`, {
         customer: customerId,
         product: selectedProduct,
         quantity: totalQuantity,
@@ -74,8 +87,11 @@ const AddTransaction = () => {
         loan,
         totalPrice,
       });
-
-      // Reset form
+  
+      // Update transactions state immediately with the new transaction
+      setTransactions((prevTransactions) => [...prevTransactions, newTransaction]);
+  
+      // Reset form fields
       setSelectedCustomer("");
       setNewCustomer("");
       setSelectedProduct("");
@@ -84,14 +100,14 @@ const AddTransaction = () => {
       setTotalPrice(0);
       setPayment(0);
       setLoan(0);
-
+  
       alert("Transaction saved successfully!");
     } catch (error) {
       console.error("Error saving transaction:", error);
       alert("Failed to save transaction");
     }
   };
-
+  
   return (
     <div className="py-8 px-2 lg:px-24">
       <h2 className="text-3xl font-bold text-gray-700 text-center mb-8">
